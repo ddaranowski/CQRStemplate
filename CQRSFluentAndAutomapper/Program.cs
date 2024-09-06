@@ -1,5 +1,8 @@
 
-namespace CQRSTemplate
+using CQRSFluentAndAutomapper.Models;
+using Microsoft.EntityFrameworkCore;
+
+namespace CQRSFluentAndAutomapper
 {
     public class Program
     {
@@ -14,6 +17,11 @@ namespace CQRSTemplate
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
+
+            var connectionString = builder.Configuration.GetConnectionString("MyAppCs");
+            builder.Services.AddDbContext<AppDbContext>(options =>
+                options.UseSqlServer(connectionString));
+            builder.Services.AddScoped<IFlowService, FlowService>();
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

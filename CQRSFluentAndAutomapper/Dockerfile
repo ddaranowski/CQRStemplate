@@ -9,17 +9,17 @@ EXPOSE 8081
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["CQRSTemplate/CQRSTemplate.csproj", "CQRSTemplate/"]
-RUN dotnet restore "./CQRSTemplate/CQRSTemplate.csproj"
+COPY ["CQRSFluentAndAutomapper/CQRSFluentAndAutomapper.csproj", "CQRSFluentAndAutomapper/"]
+RUN dotnet restore "./CQRSFluentAndAutomapper/CQRSFluentAndAutomapper.csproj"
 COPY . .
-WORKDIR "/src/CQRSTemplate"
-RUN dotnet build "./CQRSTemplate.csproj" -c $BUILD_CONFIGURATION -o /app/build
+WORKDIR "/src/CQRSFluentAndAutomapper"
+RUN dotnet build "./CQRSFluentAndAutomapper.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./CQRSTemplate.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "./CQRSFluentAndAutomapper.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "CQRSTemplate.dll"]
+ENTRYPOINT ["dotnet", "CQRSFluentAndAutomapper.dll"]
