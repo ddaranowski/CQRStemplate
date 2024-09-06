@@ -1,6 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using CQRSFluentAndAutomapper.Models;
+using CQRSMediatR.Api.Infractructure;
+using Microsoft.EntityFrameworkCore;
 
-namespace CQRSFluentAndAutomapper.Models;
+namespace CQRSMediatR.Api.Services;
 
 public class FlowService : IFlowService
 {
@@ -23,5 +25,13 @@ public class FlowService : IFlowService
     {
         await _dbContext.Flows.AddAsync(flow);
         return await _dbContext.SaveChangesAsync();
+    }
+
+    public async Task<Flow?> GetFlowById(int flowId)
+    {
+        return await _dbContext.Flows
+             .Include(f => f.Channels)
+             .FirstOrDefaultAsync(f => f.Id == flowId);
+
     }
 }

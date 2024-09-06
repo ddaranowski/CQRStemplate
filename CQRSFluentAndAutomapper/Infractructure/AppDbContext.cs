@@ -1,7 +1,8 @@
 ﻿using System.Reflection;
+using CQRSFluentAndAutomapper.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace CQRSFluentAndAutomapper.Models;
+namespace CQRSMediatR.Api.Infractructure;
 
 public class AppDbContext : DbContext
 {
