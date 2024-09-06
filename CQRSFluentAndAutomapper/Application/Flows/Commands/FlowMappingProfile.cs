@@ -17,5 +17,13 @@ public class FlowMappingProfile : Profile
 
         // Define mapping from ChannelDto to Channel
         CreateMap<ChannelDto, Channel>();
+
+        CreateMap<Flow, FlowDto>()
+            .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
+            .ForMember(dest => dest.ApplicationId, opt => opt.MapFrom(src => src.ApplicationId))
+            .ForMember(dest => dest.Channels, opt => opt.MapFrom(src => src.Channels));
+
+        // Mapping from Channel to ChannelDto
+        CreateMap<Channel, ChannelDto>();
     }
 }
